@@ -24,7 +24,7 @@ class ControllerPacient:
 
     @staticmethod
     @views.route("/")
-    @views.route("/home")
+    @views.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/home")
     @login_required
     def home():
         if current_user.role == 'terapeut':
@@ -33,7 +33,7 @@ class ControllerPacient:
             return redirect(url_for('pacientView.home_Pacient'))
 
     @staticmethod
-    @views.route("/home/pacient")
+    @views.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/home/pacient")
     @login_required
     @role_required('pacient')
     def home_Pacient():
@@ -49,7 +49,7 @@ class ControllerPacient:
             return render_template("homePacient.html", user=current_user, posts=lista_finala)
 
     @staticmethod
-    @views.route("/create-post", methods=['GET', 'POST'])
+    @views.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/create-post", methods=['GET', 'POST'])
     @login_required
     @role_required('pacient')
     def create_post():
@@ -69,7 +69,7 @@ class ControllerPacient:
         return render_template('create_post.html', user=current_user)
 
     @staticmethod
-    @views.route("/jurnal")
+    @views.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/jurnal")
     @role_required('pacient')
     @login_required
     def posts():

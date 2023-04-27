@@ -8,7 +8,7 @@ class ControllerAuth:
     auth = Blueprint("auth", __name__)
 
     @staticmethod
-    @auth.route("/login", methods=['GET', 'POST'])
+    @auth.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/login", methods=['GET', 'POST'])
     def login():
         if request.method == 'POST':
             email = request.form.get("email")
@@ -31,7 +31,7 @@ class ControllerAuth:
         return render_template("login.html", user=current_user)
 
     @staticmethod
-    @auth.route("/sign-up", methods=['GET', 'POST'])
+    @auth.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/sign-up", methods=['GET', 'POST'])
     def sign_up():
         teraps = Terapeut.query.all()
         if request.method == 'POST':
@@ -93,7 +93,7 @@ class ControllerAuth:
         return render_template("signup.html", user=current_user, terapeuts= teraps)
 
     @staticmethod
-    @auth.route("/logout")
+    @auth.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/logout")
     @login_required
     def logout():
         logout_user()
