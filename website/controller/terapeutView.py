@@ -22,7 +22,7 @@ class ControllerTerapeut:
         return decorator
 
     @staticmethod
-    @terapeutView.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/home/terapeut")
+    @terapeutView.route("/home/terapeut")
     @login_required
     @role_required('terapeut')
     def home_Terapeut():
@@ -36,7 +36,7 @@ class ControllerTerapeut:
     @staticmethod
     @login_required
     @role_required('terapeut')
-    @terapeutView.route("http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/home/terapeut/get/", methods=["POST"])
+    @terapeutView.route("/home/terapeut/get/", methods=["POST"])
     def get():
         ev = ServiceCalendar()
         data = dict(request.form)

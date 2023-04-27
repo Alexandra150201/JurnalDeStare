@@ -17,7 +17,7 @@
   border: none;
   font-family: 'Open Sans', sans-serif !important;">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <a href="http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/jurnal" style="font-size: 18px;">Jurnalul lui {{post.user.username}}</a>
+      <a href="/jurnal" style="font-size: 18px;">Jurnalul lui {{post.user.username}}</a>
     </div>
     <div class="card-body" >
       <div class="card-text" style="font-size: 16px;">{{post.text}}</div>
@@ -28,7 +28,7 @@
 </div>
 {% block footer %}
 <div align="center">
-  <a href="http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/create-post"
+  <a href="/create-post"
     ><button type="button" >
       Adaugă un gând
     </button></a

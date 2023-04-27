@@ -29,12 +29,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
           <div class="navbar-nav" style="font-size: 22px !important;">
-            <a class="nav-item nav-link" href="http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/home">Home</a>
+            <a class="nav-item nav-link" href="/home">Home</a>
              {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/logout">Logout</a>
+            <a class="nav-item nav-link" href="/logout">Logout</a>
             {% else %}
-            <a class="nav-item nav-link" href="http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/login">Login</a>
-            <a class="nav-item nav-link" href="http://ec2-16-16-138-138.eu-north-1.compute.amazonaws.com/sign-up">Sign Up</a>
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/sign-up">Sign Up</a>
             {% endif %}
           </div>
         </div>
