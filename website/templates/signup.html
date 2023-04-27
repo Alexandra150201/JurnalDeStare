@@ -1,0 +1,108 @@
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block
+content %}
+<form method="POST">
+  <h3 align="center" >Sign Up</h3>
+  <div class="form-group">
+    <label for="email">Adresa de email:</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      class="form-control"
+      placeholder="Introduce Email"
+    />
+     <label for="username">Username</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      class="form-control"
+      placeholder="Introduce Username"
+    />
+    <label for="first_name">Prenume: </label>
+    <input
+      type="text"
+      id="first_name"
+      name="first_name"
+      class="form-control"
+      placeholder="Introduce prenume"
+    />
+    <label for="last_name">Nume: </label>
+    <input
+      type="text"
+      id="last_name"
+      name="last_name"
+      class="form-control"
+      placeholder="Introduce nume"
+    />
+    <label for="password1">Parola:</label>
+    <input
+      type="password"
+      id="password1"
+      name="password1"
+      class="form-control"
+      placeholder="Introduce Parola"
+    />
+    <label for="password2">Parola:</label>
+    <input
+      type="password"
+      id="password2"
+      name="password2"
+      class="form-control"
+      placeholder="Introduce Parola din nou"
+    />
+
+    <label for="user-type">Select User Type:</label>
+	<select id="user-type" name="user-type">
+		<option value="pacient">Pacient</option>
+		<option value="terapeut">Terapeut</option>
+	</select>
+
+	<div  id="pacient-fields">
+		<label for="terapeut-select">Selecteaza un terapeut:</label>
+	    <select id="terapeut-select" name="terapeut-select">
+            {% for terapeut in terapeuts %}
+                <option value="{{ terapeut.id }}">{{ terapeut.first_name }} {{ terapeut.last_name }}</option>
+		    {% endfor %}
+        </select>
+	</div>
+
+	<div id="terapeut-fields">
+		<label for="function">Functie:</label>
+		<input type="text" id="function" name="function"
+               class="form-control"
+               placeholder="Introduce funcție">
+        <label for="license">Diploma:</label>
+		<input type="text" id="license" name="license"
+                 class="form-control"
+                 placeholder="Introduce diploma">
+        <label for="startYear">Anul de început al activității în domeniu:</label>
+		<input type="text" id="startYear" name="startYear"  class="form-control"
+                 placeholder="Introduce anul de început al activității">
+	</div>
+    <br />
+    <div align="center">
+      <button type="submit">Sign Up</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
+{% block scripts %}
+  <script>
+    const userTypeSelect = document.getElementById('user-type');
+    const pacientFieldsDiv = document.getElementById('pacient-fields');
+    const terapeutFieldsDiv = document.getElementById('terapeut-fields');
+
+    terapeutFieldsDiv.style.display = 'none';
+
+    userTypeSelect.addEventListener('change', () => {
+      if (userTypeSelect.value === 'terapeut') {
+        pacientFieldsDiv.style.display = 'none';
+        terapeutFieldsDiv.style.display = 'block';
+      } else {
+        pacientFieldsDiv.style.display = 'block';
+        terapeutFieldsDiv.style.display = 'none';
+      }
+    });
+  </script>
+{% endblock %}

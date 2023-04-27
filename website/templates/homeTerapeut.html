@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calendar</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+
+    <!-- STYLESHEET + JAVASCRIPT -->
+    <script defer src="/static/calendar.js"></script>
+    <link rel="stylesheet" href="/static/calendar.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+          <div class="navbar-nav" style="font-size: 22px !important;">
+            <a class="nav-item nav-link" href="/home">Home</a>
+             {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="/logout">Logout</a>
+            {% else %}
+            <a class="nav-item nav-link" href="/login">Login</a>
+            <a class="nav-item nav-link" href="/sign-up">Sign Up</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="alert alert-danger alter-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+    <div class="container"></div>
+  <div id="calHead">
+      <div id="calPeriod">
+        <input id="calBack" type="button" class="mi" value="&lt;">
+        <select id="calMonth"></select>
+        <input id="calYear" type="number">
+        <input id="calNext" type="button" class="mi" value="&gt;">
+      </div>
+      <div  >
+         <label for="pacient-select" style="font-size: 24px; font-weight: bold; color: white;">Selectează un pacient:</label>
+         <select id="pacient-select" name="pacient-select">
+             {% for pacient in pacienti %}
+                 <option value="{{ pacient.id }}">{{ pacient.first_name }} {{ pacient.last_name }}</option>
+             {% endfor %}
+         </select>
+      </div>
+ </div>
+
+    <!-- (B) CALENDAR WRAPPER -->
+    <div id="calWrap">
+      <div id="calDays"></div>
+      <div id="calBody"></div>
+    </div>
+
+
+  <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+</body>
+</html>
