@@ -4,7 +4,8 @@ from website.domain.models import Post, Pacient
 from website import db
 from functools import wraps
 from website.utils.detectDepressionModel import DepressionDetector
-from datetime import date
+from datetime import date, datetime
+import pytz
 
 class ControllerPacient:
 
@@ -41,7 +42,7 @@ class ControllerPacient:
         pacienti = Pacient.query.filter_by(terapeut_asignat=current_user.id)
         lista_finala = []
         for post in posts:
-            if post.date_created.date() == date.today():
+            if post.date_created!= None and post.date_created.date() == date.today():
                 lista_finala.append(post)
         if current_user.role == 'terapeut':
             return render_template("homeTerapeut.html", user=current_user, pacienti=pacienti)
@@ -60,7 +61,9 @@ class ControllerPacient:
                 flash('Post cannot be empty', category='error')
             else:
                 result = depr.detectDepressionFromtext(text)
-                post = Post(text=text, author=current_user.id,result=result)
+                timezone = pytz.timezone('Europe/Bucharest')
+                current_time = datetime.now(timezone)
+                post = Post(text=text, author=current_user.id,result=result,date_created=current_time)
                 db.session.add(post)
                 db.session.commit()
                 flash('Post created!', category='success')
