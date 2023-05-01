@@ -9,7 +9,7 @@ class ControllerTerapeut:
     terapeutView = Blueprint("terapeutView", __name__)
 
     @staticmethod
-    def role_required(role):
+    def __role_required(role):
         def decorator(func):
             @wraps(func)
             def wrapper(*args, **kwargs):
@@ -24,7 +24,7 @@ class ControllerTerapeut:
     @staticmethod
     @terapeutView.route("/home/terapeut")
     @login_required
-    @role_required('terapeut')
+    @__role_required('terapeut')
     def home_Terapeut():
         posts_today = Post.query.filter_by(author=current_user.id)
         pacienti = Pacient.query.filter_by(terapeut_asignat=current_user.id)
@@ -35,7 +35,7 @@ class ControllerTerapeut:
 
     @staticmethod
     @login_required
-    @role_required('terapeut')
+    @__role_required('terapeut')
     @terapeutView.route("/home/terapeut/get/", methods=["POST"])
     def get():
         ev = ServiceCalendar()

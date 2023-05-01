@@ -10,7 +10,7 @@ import pytz
 class ControllerPacient:
 
     @staticmethod
-    def role_required(role):
+    def __role_required(role):
         def decorator(func):
             @wraps(func)
             def wrapper(*args, **kwargs):
@@ -36,7 +36,7 @@ class ControllerPacient:
     @staticmethod
     @views.route("/home/pacient")
     @login_required
-    @role_required('pacient')
+    @__role_required('pacient')
     def home_Pacient():
         posts = Post.query.filter_by(author=current_user.id).all()
         pacienti = Pacient.query.filter_by(terapeut_asignat=current_user.id)
@@ -52,7 +52,7 @@ class ControllerPacient:
     @staticmethod
     @views.route("/create-post", methods=['GET', 'POST'])
     @login_required
-    @role_required('pacient')
+    @__role_required('pacient')
     def create_post():
         if request.method == "POST":
             text = request.form.get('text')
@@ -60,7 +60,7 @@ class ControllerPacient:
             if not text:
                 flash('Post cannot be empty', category='error')
             else:
-                result = depr.detectDepressionFromtext(text)
+                result = depr.detectDepressionFromText(text)
                 timezone = pytz.timezone('Europe/Bucharest')
                 current_time = datetime.now(timezone)
                 post = Post(text=text, author=current_user.id,result=result,date_created=current_time)
@@ -73,7 +73,7 @@ class ControllerPacient:
 
     @staticmethod
     @views.route("/jurnal")
-    @role_required('pacient')
+    @__role_required('pacient')
     @login_required
     def posts():
         posts_today = Post.query.filter_by(author=current_user.id)
