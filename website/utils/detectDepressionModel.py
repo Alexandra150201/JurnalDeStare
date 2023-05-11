@@ -14,7 +14,11 @@ class DepressionDetector:
         s = re.sub('(RT|via)((?:\\b\\W*@\\w+)+)', ' ', s)
         s = re.sub(r'@\S+', '', s)
         s = re.sub('&amp', ' ', s)
-        s = re.sub(r'[^a-zA-Z]',' ',s)
+        s = re.sub(r'[ăâÂĂ]', 'a', s)
+        s = re.sub(r'[îÎ]', 'i', s)
+        s = re.sub(r'[țȚ]', 't', s)
+        s = re.sub(r'[șȘ]', 's', s)
+        s = re.sub(r'[^a-zA-Z]', ' ', s)
         s = re.sub(r'-{2,}\s',' ',s)
         return s
 
@@ -28,21 +32,21 @@ class DepressionDetector:
 
     @staticmethod
     def detectDepressionFromText(text):
-        model= load_model('website/utils/modelRomanian.h5')
+        model= load_model('website/utils/modelRomanianBun.h5')
         stop_words = DepressionDetector.__get_stopwords_list('website/utils/romanian.txt')
 
-        with open('website/utils/tokenizer.pickle', 'rb') as handle:
+        with open('website/utils/tokenizerRomanianBun.pickle', 'rb') as handle:
             tokenizer = pickle.load(handle)
 
         text = DepressionDetector.__clean_text(text)
         text = text.lower()
         text = ' '.join([word for word in text.split() if word not in stop_words])
         print(text)
-        new_text_seq = tokenizer.texts_to_sequences(text)
+        new_text_seq = tokenizer.texts_to_sequences([text])
         new_text_seq_padded = pad_sequences(new_text_seq, maxlen=DepressionDetector.__max_sequence_length)
         print(new_text_seq_padded)
 
-        y_pred = model.predict([new_text_seq_padded, new_text_seq_padded])
+        y_pred = model.predict([new_text_seq_padded,new_text_seq_padded])
         print('Predicted Target:', y_pred[0])
         y_pred = np.round(y_pred).flatten()
         print('Predicted Target:', y_pred[0])
