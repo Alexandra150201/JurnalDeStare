@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import request, render_template, make_response, Blueprint
 from flask_login import login_required, current_user
-from website.domain.models import Post, Pacient
+from website.domain.models import Post, Pacient, Terapeut
 from  website.service.serviceCalendar import  ServiceCalendar
 
 class ControllerTerapeut:
@@ -31,7 +31,9 @@ class ControllerTerapeut:
         if current_user.role == 'terapeut':
             return render_template("homeTerapeut.html", user=current_user, pacienti=pacienti)
         else:
-            return render_template("homePacient.html", user=current_user, posts=posts_today)
+            pacient = Pacient.query.filter_by(id=current_user.id).first()
+            terap = Terapeut.query.filter_by(id=pacient.terapeut_asignat).first()
+            return render_template("homePacient.html", user=current_user, posts=posts_today, pacient=pacient,terapeut=terap)
 
     @staticmethod
     @login_required

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from website.domain.models import Post, Pacient
+from website.domain.models import Post, Pacient, Terapeut
 from website import db
 from functools import wraps
 from website.utils.detectDepressionModel import DepressionDetector
@@ -47,7 +47,9 @@ class ControllerPacient:
         if current_user.role == 'terapeut':
             return render_template("homeTerapeut.html", user=current_user, pacienti=pacienti)
         else:
-            return render_template("homePacient.html", user=current_user, posts=lista_finala)
+            pacient = Pacient.query.filter_by(id=current_user.id).first()
+            terap = Terapeut.query.filter_by(id=pacient.terapeut_asignat).first()
+            return render_template("homePacient.html", user=current_user, posts=lista_finala,pacient=pacient,terapeut=terap)
 
     @staticmethod
     @views.route("/create-post", methods=['GET', 'POST'])
@@ -77,4 +79,6 @@ class ControllerPacient:
     @login_required
     def posts():
         posts_today = Post.query.filter_by(author=current_user.id)
-        return render_template("posts.html", user=current_user, posts=posts_today)
+        pacient = Pacient.query.filter_by(id=current_user.id).first()
+        terap = Terapeut.query.filter_by(id=pacient.terapeut_asignat).first()
+        return render_template("posts.html", user=current_user, posts=posts_today, pacient=pacient,terapeut=terap)
